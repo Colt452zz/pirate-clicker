@@ -1,0 +1,14 @@
+.upgradeBox {
+    border-radius: 8px;
+    background-color: #1b1b1f;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    margin: 8px;
+}
+.upgradeBox:hover {
+    cursor: pointer;
+}
+#upgradeList {
+    width: 100%;
+}

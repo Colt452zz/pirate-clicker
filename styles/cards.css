@@ -1,0 +1,36 @@
+/* cards.css */
+
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: center;
+}
+
+.card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  flex: 1 1 250px;
+  max-width: 400px;
+  background-color: #2e2e36;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+}
+
+.image-card {
+  display: inline-flex;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #2e2e36;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+}

@@ -1,0 +1,22 @@
+/* layout.css */
+
+.container {
+  max-width: 420px;
+  margin: 120px auto 40px;
+  padding: 24px;
+  background-color: #24242a;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.container.wide {
+  width: 90vw;
+  max-width: 95vw;
+}

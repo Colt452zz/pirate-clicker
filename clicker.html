@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Colton Selby">
+        <meta name="keywords" content="html, css, javascript, personal, portfolio, webdev">
+        <meta name="description" content="This is my personal site, which I will be using to learn and play around with the basics of web development">
+        <link rel="stylesheet" href="styles/base.css">
+        <link rel="stylesheet" href="styles/layout.css">
+        <link rel="stylesheet" href="styles/navbar.css">
+        <link rel="stylesheet" href="styles/buttons.css">
+        <link rel="stylesheet" href="styles/cards.css">
+        <link rel="stylesheet" href="styles/clicker.css">
+        <script src="scripts/clicker.js" defer></script>
+    </head>
+    <body>
+        <div class="navbar" id="menuBar">
+            <a href="index.html">Home</a>
+            <div class="dropdown">
+                <a href="games.html" class="dropbtn">Games</a>
+                <div class="dropdown-content">
+                    <a href="chess.html">Chess</a>
+                    <a href="platformer.html">Platformer</a>
+                    <a href="ticTacToe.html">Tic Tac Toe</a>
+                    <a href="clicker.html">Clicker</a>
+                </div>
+            </div>
+            <a class="external" href="https://github.com/Colt452zz" target="_blank">
+                Github
+                <img src="images/box-arrow-up-right-svgrepo-com.svg" width="16" height="16">
+            </a>
+        </div>
+        <div class="container wide">
+            <div class="page-layout">
+                <div class="card-row">
+                    <div class="card centered">
+                        <h2>Upgrades</h2>
+                        <div id="upgradeList"></div>
+                        <p id="upgradeText">Purchase 10 more Compass to unlock the next upgrade</p>
+                    </div>
+                    <div class="card centered">
+                        <h1>Pirate Clicker</h1>
+                        <button id="clickMe" class="input">Sail the Seas!</button>
+                        <h2 id="dubloonCount">Dubloons: 0</h2>
+                        <p id="dubloonsPerVoyage">per voyage: 1</p>
+                    </div>
+                    <div class="card centered">
+                        <h2>Lorem Ipsum</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

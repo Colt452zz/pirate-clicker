@@ -1,0 +1,15 @@
+/* buttons.css */
+
+button.input {
+  background-color: #6b2fe3;
+  color: white;
+  margin: 10px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+button.input:hover {
+  background-color: #7d45ee;
+}
