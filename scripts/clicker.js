@@ -82,11 +82,13 @@ function drawUpgrade(index) {
     const upgradeNameAndCount = document.createElement('p');
     upgradeNameAndCount.dataset.title = "nameAndCount";
     upgradeNameAndCount.innerText = `${upgrades[index].name} (${formatDubloonCount(upgrades[index].count)})`;
+    upgradeNameAndCount.classList.add('no-highlight');
     upgradeBox.appendChild(upgradeNameAndCount);
 
     const upgradeCost = document.createElement('p');
     upgradeCost.dataset.title = "cost";
     upgradeCost.innerText = `${formatDubloonCount(upgrades[index].cost)}`;
+    upgradeCost.classList.add('no-highlight');
     upgradeBox.appendChild(upgradeCost);
 
     upgradeList.appendChild(upgradeBox);
