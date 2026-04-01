@@ -11,6 +11,9 @@
 }
 #upgradeList {
     width: 100%;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
 }
 .no-highlight {
   -webkit-touch-callout: none; /* iOS Safari */
@@ -19,4 +22,24 @@
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Standard */
+}
+.dubloonText {
+    margin-top: auto;
+    border-radius: 8px;
+    background-color: #1b1b1f;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.dubloonText > * {
+    margin: 8px;
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow: auto;
+    }
+    .container {
+        height: auto;
+    }
 }

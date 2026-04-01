@@ -6,22 +6,20 @@ const upgradeList = document.getElementById('upgradeList');
 // ---- STATE ----
 let dubloons = 0;
 let dpc = 1;
+let dps = 0;
 
 // ---- DUBLOONS ----
-function incrementDubloons() {
-    dubloons += dpc;
-}
 
-function getDPC() {
-    let dpc = 1;
+function getDPS() {
+    let dps = 0;
     for (let index = 0; index < upgrades.length; index++) {
-        dpc += (upgrades[index].dpcBonus*upgrades[index].count);
+        dps += upgrades[index].dpsBonus * upgrades[index].count;
     }
-    return dpc;
+    return dps;
 }
 
 function formatDubloonCount(count) {
-    if (count < 1000000) return count.toLocaleString();
+    if (count < 1000000) return Math.floor(count).toLocaleString();
     else if (count < 1000000000) return `${(count / 1000000).toFixed(2)}M`;
     else if (count < 1000000000000) return `${(count / 1000000000).toFixed(2)}B`;
     else if (count < 1000000000000000) return `${(count / 1000000000000).toFixed(2)}T`;
@@ -32,13 +30,13 @@ function formatDubloonCount(count) {
 
 class Upgrade {
 
-    constructor(name, baseCost, dpcBonus, unlocked) {
+    constructor(name, baseCost, dpsBonus, dpcBonus, unlocked) {
         this.name = name;
-        this.dpcBonus = dpcBonus;
+        this.dpsBonus = dpsBonus;
         this.count = 0;
         this.baseCost = baseCost;
         this.cost = baseCost;
-        this.unlocked = unlocked ?? false;
+        this.unlocked = unlocked;
     }
 
     buy() {
@@ -47,23 +45,23 @@ class Upgrade {
         dubloons -= this.cost;
         this.cost = Math.round(this.baseCost*1.15**this.count); 
         checkUnlocks();
-        dpc = getDPC();
+        dps = getDPS();
         return true;
     }
 
 }
 
 const upgrades = [
-    new Upgrade("Compass", 10, 1, true),
-    new Upgrade("Spyglass", 50, 5),
-    new Upgrade("Treasure Map", 250, 25),
-    new Upgrade("Rum Barrel", 1250, 125),
-    new Upgrade("Crewmate", 6250, 625),
-    new Upgrade("Cannon", 31250, 3125),
-    new Upgrade("Jolly Roger", 156250, 15625),
-    new Upgrade("Fleet Ship", 781250, 78125),
-    new Upgrade("Pirate Cove", 3875000, 387500),
-    new Upgrade("Cursed Artifact", 18750000, 1875000)
+    new Upgrade("Cabin Boy", 10, 0.1, 0, true),
+    new Upgrade("Doctor", 50, 1, 0),
+    new Upgrade("Navigator", 250, 5, 0),
+    new Upgrade("Sharpshooter", 1250, 10, 0),
+    new Upgrade("Musician", 6250, 50, 0),
+    new Upgrade("Carpenter", 31250, 100, 0),
+    new Upgrade("Archaeologist", 156250, 500, 0),
+    new Upgrade("Helmsman", 781250, 1000, 0),
+    new Upgrade("Cook", 3875000, 5000 ,0),
+    new Upgrade("Swordsman", 18750000, 10000, 0)
 ]
 
 function checkUnlocks() {
@@ -114,19 +112,25 @@ function updateUpgrade(index) {
 
 function updateUpgradeText() {
     const currentUpgrade = upgrades.findLast(_upgrade => _upgrade.unlocked);
-    upgradeText.classList.toggle('hidden', currentUpgrade.name === "Cursed Artifact");
-    upgradeText.innerText = `purchase ${10 - currentUpgrade.count} more ${currentUpgrade.name} to unlock the next upgrade`;
+    if (currentUpgrade.name === "Swordsman") {
+        upgradeText.classList.add('hidden');
+        return;
+    }
+    let remaining = 10 - currentUpgrade.count;
+    upgradeText.innerText = remaining === 1 
+        ? `recruit ${remaining} more ${(currentUpgrade.name).toLowerCase()} to unlock the next crewmate`
+        : `recruit ${remaining} more ${(currentUpgrade.name).toLowerCase()}s to unlock the next crewmate`;
 }
 
 function updateDubloonText() {
     document.getElementById('dubloonCount').innerText = `Dubloons: ${formatDubloonCount(dubloons)}`;
-    document.getElementById('dubloonsPerVoyage').innerText = `per voyage: ${formatDubloonCount(dpc)}`;
+    document.getElementById('dubloonsPerSecond').innerText = `per second: ${formatDubloonCount(dps)}`;
 }
 
 // ---- ON CLICK ----
 
 clickButton.addEventListener('click', () => {
-    incrementDubloons();
+    dubloons += dpc;
     updateDubloonText();
     localStorage.setItem('dubloons', dubloons.toString());
 });
@@ -138,7 +142,7 @@ if ((upgradeArray = JSON.parse(localStorage.getItem('upgrades'))) != null) {
         upgrades[index].count = upgradeArray[index].count;
         upgrades[index].cost = upgradeArray[index].cost;
     }
-    dpc = getDPC();
+    dps = getDPS();
     checkUnlocks();
     for (let index = 0; index < upgrades.length; ++index) {
         if (upgrades[index].unlocked) drawUpgrade(index);
@@ -148,3 +152,8 @@ if ((upgradeArray = JSON.parse(localStorage.getItem('upgrades'))) != null) {
     updateUpgradeText();
 }
 else drawUpgrade(0);
+
+setInterval(() => {
+    dubloons += dps / 10;
+    updateDubloonText();
+}, 100);

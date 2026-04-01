@@ -1,8 +1,8 @@
 /* layout.css */
 
 .container {
-  max-width: 420px;
-  margin: 120px auto 40px;
+  height: calc(100vh - 56px - 10vw);
+  margin: calc(56px + 5vw) auto 5vw;
   padding: 24px;
   background-color: #24242a;
   border-radius: 10px;
