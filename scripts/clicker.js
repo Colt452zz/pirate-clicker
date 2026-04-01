@@ -30,7 +30,7 @@ function formatDubloonCount(count) {
 
 class Upgrade {
 
-    constructor(name, baseCost, dpsBonus, dpcBonus, unlocked) {
+    constructor(name, baseCost, dpsBonus, unlocked) {
         this.name = name;
         this.dpsBonus = dpsBonus;
         this.count = 0;
@@ -52,21 +52,41 @@ class Upgrade {
 }
 
 const upgrades = [
-    new Upgrade("Cabin Boy", 10, 0.1, 0, true),
-    new Upgrade("Doctor", 50, 1, 0),
-    new Upgrade("Navigator", 250, 5, 0),
-    new Upgrade("Sharpshooter", 1250, 10, 0),
-    new Upgrade("Musician", 6250, 50, 0),
-    new Upgrade("Carpenter", 31250, 100, 0),
-    new Upgrade("Archaeologist", 156250, 500, 0),
-    new Upgrade("Helmsman", 781250, 1000, 0),
-    new Upgrade("Cook", 3875000, 5000 ,0),
-    new Upgrade("Swordsman", 18750000, 10000, 0)
+    new Upgrade("Cabin Boy", 10, 0.1, true),
+    new Upgrade("Doctor", 50, 1, ),
+    new Upgrade("Navigator", 250, 5),
+    new Upgrade("Sharpshooter", 1250, 10),
+    new Upgrade("Musician", 6250, 50),
+    new Upgrade("Carpenter", 31250, 100),
+    new Upgrade("Archaeologist", 156250, 500),
+    new Upgrade("Helmsman", 781250, 1000),
+    new Upgrade("Cook", 3875000, 5000),
+    new Upgrade("Swordsman", 18750000, 10000)
 ]
 
 function checkUnlocks() {
     for (let index = 0; index < upgrades.length - 1; ++index) {
         if (upgrades[index].count >= 10 ) upgrades[index+1].unlocked = true;
+    }
+}
+
+function getIdleDubloons() {
+    const lastSeen = Number(localStorage.getItem('lastSeen'))/1000;
+    const now = Date.now()/1000;
+    const secondsElapsed = now - lastSeen;
+    if (secondsElapsed > 86400) return 86400 * dps;
+    else return secondsElapsed * dps;
+}
+
+// ---- ITEMS ----
+
+class Item { 
+
+    constructor(name, tier, type, value) {
+        this.name = name;
+        this.tier = tier;
+        this.type = type;
+        this.value = value;
     }
 }
 
@@ -127,13 +147,18 @@ function updateDubloonText() {
     document.getElementById('dubloonsPerSecond').innerText = `per second: ${formatDubloonCount(dps)}`;
 }
 
-// ---- ON CLICK ----
+// ---- EVENT LISTENERS ----
 
 clickButton.addEventListener('click', () => {
     dubloons += dpc;
     updateDubloonText();
     localStorage.setItem('dubloons', dubloons.toString());
 });
+
+window.addEventListener('beforeunload', () => {
+    localStorage.setItem('lastSeen', Date.now().toString());
+    localStorage.setItem('dubloons', dubloons.toString());
+})
 
 // ---- INIT ----
 dubloons = Number(localStorage.getItem('dubloons')) || 0;
@@ -143,6 +168,7 @@ if ((upgradeArray = JSON.parse(localStorage.getItem('upgrades'))) != null) {
         upgrades[index].cost = upgradeArray[index].cost;
     }
     dps = getDPS();
+    dubloons += getIdleDubloons();
     checkUnlocks();
     for (let index = 0; index < upgrades.length; ++index) {
         if (upgrades[index].unlocked) drawUpgrade(index);
