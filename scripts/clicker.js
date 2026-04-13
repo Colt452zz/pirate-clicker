@@ -28,7 +28,7 @@ function formatDubloonCount(count) {
 
 // ---- UPGRADES ----
 
-class Upgrade {
+class Crewmate {
 
     constructor(name, baseCost, dpsBonus, unlocked) {
         this.name = name;
@@ -51,28 +51,28 @@ class Upgrade {
 
 }
 
-const upgrades = [
-    new Upgrade("Cabin Boy", 10, 0.1, true),
-    new Upgrade("Doctor", 50, 1, ),
-    new Upgrade("Navigator", 250, 5),
-    new Upgrade("Sharpshooter", 1250, 10),
-    new Upgrade("Musician", 6250, 50),
-    new Upgrade("Carpenter", 31250, 100),
-    new Upgrade("Archaeologist", 156250, 500),
-    new Upgrade("Helmsman", 781250, 1000),
-    new Upgrade("Cook", 3875000, 5000),
-    new Upgrade("Swordsman", 18750000, 10000)
+const crewmates = [
+    new Crewmate("Cabin Boy", 10, 0.1, true),
+    new Crewmate("Doctor", 50, 1, ),
+    new Crewmate("Navigator", 250, 5),
+    new Crewmate("Sharpshooter", 1250, 10),
+    new Crewmate("Musician", 6250, 50),
+    new Crewmate("Carpenter", 31250, 100),
+    new Crewmate("Archaeologist", 156250, 500),
+    new Crewmate("Helmsman", 781250, 1000),
+    new Crewmate("Cook", 3875000, 5000),
+    new Crewmate("Swordsman", 18750000, 10000)
 ];
 
 function checkUnlocks() {
-    for (let index = 0; index < upgrades.length - 1; ++index) {
-        if (upgrades[index].count >= 10 ) upgrades[index+1].unlocked = true;
+    for (let index = 0; index < crewmates.length - 1; ++index) {
+        if (crewmates[index].count >= 10 ) crewmates[index+1].unlocked = true;
     }
 }
 
-function getIndexOfCurrentUpgrade() {
-for (let index = upgrades.length - 1; index >= 0; --index) {
-    if (upgrades[index].unlocked) return index;
+function getIndexOfCurrentCrewmate() {
+for (let index = crewmates.length - 1; index >= 0; --index) {
+    if (crewmates[index].unlocked) return index;
 }
 }
 
@@ -132,7 +132,7 @@ for (let i = 0; i < itemNames.length; ++i) {
 
 function getSlotCount() {
     let slots = 3;
-    slots += getIndexOfCurrentUpgrade();
+    slots += getIndexOfCurrentCrewmate();
     return slots;
 }
 
@@ -140,7 +140,7 @@ const inventory = [null, null, null, null, null, null, null, null, null, null, n
 
 function getSpinWeights() {
     const weights = [50, 30, 15, 4, 1]
-    const maxTier = Math.floor(getIndexOfCurrentUpgrade() / 2);
+    const maxTier = Math.floor(getIndexOfCurrentCrewmate() / 2);
     for (let index = 0; index < weights.length; ++index) {
         if (index > maxTier) weights[index] = 0;
     }
@@ -173,54 +173,53 @@ function rollItem() {
 
 // ---- DOM UPDATE ----
 
-function drawUpgrade(index) {
-    const upgradeBox = document.createElement('div');
-    upgradeBox.dataset.index = index;
-    upgradeBox.classList.add("upgradeBox");
+function drawCrewmate(index) {
+    const crewmateBox = document.createElement('div');
+    crewmateBox.dataset.index = index;
+    crewmateBox.classList.add("crewmateBox");
 
-    const upgradeNameAndCount = document.createElement('p');
-    upgradeNameAndCount.dataset.title = "nameAndCount";
-    upgradeNameAndCount.innerText = `${upgrades[index].name} (${formatDubloonCount(upgrades[index].count)})`;
-    upgradeNameAndCount.classList.add('no-highlight');
-    upgradeBox.appendChild(upgradeNameAndCount);
+    const crewmateTitleAndCount = document.createElement('p');
+    crewmateTitleAndCount.dataset.title = "nameAndCount";
+    crewmateTitleAndCount.innerText = `${crewmates[index].name} (${formatDubloonCount(crewmates[index].count)})`;
+    crewmateTitleAndCount.classList.add('no-highlight');
+    crewmateBox.appendChild(crewmateTitleAndCount);
 
-    const upgradeCost = document.createElement('p');
-    upgradeCost.dataset.title = "cost";
-    upgradeCost.innerText = `${formatDubloonCount(upgrades[index].cost)}`;
-    upgradeCost.classList.add('no-highlight');
-    upgradeBox.appendChild(upgradeCost);
+    const crewmateCost = document.createElement('p');
+    crewmateCost.dataset.title = "cost";
+    crewmateCost.innerText = `${formatDubloonCount(crewmates[index].cost)}`;
+    crewmateCost.classList.add('no-highlight');
+    crewmateBox.appendChild(crewmateCost);
 
-    upgradeList.appendChild(upgradeBox);
+    upgradeList.appendChild(crewmateBox);
 
-    upgradeBox.addEventListener('click', (event) => {
+    crewmateBox.addEventListener('click', (event) => {
         const index = Number(event.currentTarget.dataset.index);
-        let bought = upgrades[index].buy();
-        if (!bought) return;
-        updateUpgradeText();
-        updateUpgrade(index);
-        if (upgrades[index].count === 10 && index != 9) drawUpgrade(index + 1);
+        if (!crewmates[index].buy()) return;
+        updateCrewmateText();
+        updateCrewmate(index);
+        if (crewmates[index].count === 10 && index != 9) drawCrewmate(index + 1);
         updateDubloonText();
         localStorage.setItem('dubloons', dubloons.toString());
-        localStorage.setItem('upgrades', JSON.stringify(upgrades));
+        localStorage.setItem('crewmates', JSON.stringify(crewmates));
     });
 }
 
-function updateUpgrade(index) {
-    const upgradeBox = document.querySelector(`[data-index="${index}"]`);
-    upgradeBox.querySelector('[data-title="nameAndCount"]').innerText = `${upgrades[index].name} (${formatDubloonCount(upgrades[index].count)})`;
-    upgradeBox.querySelector('[data-title="cost"]').innerText = `${formatDubloonCount(upgrades[index].cost)}`;
+function updateCrewmate(index) {
+    const crewmateBox = document.querySelector(`[data-index="${index}"]`);
+    crewmateBox.querySelector('[data-title="nameAndCount"]').innerText = `${crewmates[index].name} (${formatDubloonCount(crewmates[index].count)})`;
+    crewmateBox.querySelector('[data-title="cost"]').innerText = `${formatDubloonCount(crewmates[index].cost)}`;
 }
 
-function updateUpgradeText() {
-    const currentUpgrade = upgrades.findLast(_upgrade => _upgrade.unlocked);
-    if (currentUpgrade.name === "Swordsman") {
+function updateCrewmateText() {
+    const currentCrewmate = crewmates.findLast(_crewmate => _crewmate.unlocked);
+    if (currentCrewmate.name === "Swordsman") {
         upgradeText.classList.add('hidden');
         return;
     }
-    let remaining = 10 - currentUpgrade.count;
+    let remaining = 10 - currentCrewmate.count;
     upgradeText.innerText = remaining === 1 
-        ? `recruit ${remaining} more ${(currentUpgrade.name).toLowerCase()} to unlock the next crewmate`
-        : `recruit ${remaining} more ${(currentUpgrade.name).toLowerCase()}s to unlock the next crewmate`;
+        ? `recruit ${remaining} more ${(currentCrewmate.name).toLowerCase()} to unlock the next crewmate`
+        : `recruit ${remaining} more ${(currentCrewmate.name).toLowerCase()}s to unlock the next crewmate`;
 }
 
 function updateDubloonText() {
@@ -243,22 +242,23 @@ window.addEventListener('beforeunload', () => {
 
 // ---- INIT ----
 dubloons = Number(localStorage.getItem('dubloons')) || 0;
-if ((upgradeArray = JSON.parse(localStorage.getItem('upgrades'))) != null) {
-    for (let index = 0; index < upgradeArray.length; ++index) {
-        upgrades[index].count = upgradeArray[index].count;
-        upgrades[index].cost = upgradeArray[index].cost;
+let crewmateArray = [];
+if ((crewmateArray = JSON.parse(localStorage.getItem('crewmates'))) != null) {
+    for (let index = 0; index < crewmateArray.length; ++index) {
+        crewmates[index].count = crewmateArray[index].count;
+        crewmates[index].cost = crewmateArray[index].cost;
     }
     dps = getDPS();
     dubloons += getIdleDubloons();
     checkUnlocks();
-    for (let index = 0; index < upgrades.length; ++index) {
-        if (upgrades[index].unlocked) drawUpgrade(index);
+    for (let index = 0; index < crewmates.length; ++index) {
+        if (crewmates[index].unlocked) drawCrewmate(index);
         else break;
     }
     updateDubloonText();
-    updateUpgradeText();
+    updateCrewmateText();
 }
-else drawUpgrade(0);
+else drawCrewmate(0);
 
 setInterval(() => {
     dubloons += dps / 10;
