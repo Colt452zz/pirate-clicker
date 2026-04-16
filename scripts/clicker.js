@@ -171,6 +171,11 @@ function rollItem() {
     return items[i][rollRarity()];
 }
 
+function rollItemSprite() {
+    const item = rollItem();
+    if (item.type === 'instantDubloons') rollDubloonCount(item.tier);
+}
+
 // ---- DOM UPDATE ----
 
 function drawCrewmate(index) {
