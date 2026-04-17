@@ -1,7 +1,7 @@
 // ---- DOM REFERENCES ----
 const clickButton = document.getElementById('clickMe');
-const upgradeText = document.getElementById('upgradeText');
-const upgradeList = document.getElementById('upgradeList');
+const crewmateText = document.getElementById('crewmateText');
+const crewmateList = document.getElementById('crewmateList');
 
 // ---- STATE ----
 let dubloons = 0;
@@ -12,8 +12,8 @@ let dps = 0;
 
 function getDPS() {
     let dps = 0;
-    for (let index = 0; index < upgrades.length; index++) {
-        dps += upgrades[index].dpsBonus * upgrades[index].count;
+    for (let index = 0; index < crewmates.length; index++) {
+        dps += crewmates[index].dpsBonus * crewmates[index].count;
     }
     return dps;
 }
@@ -26,7 +26,7 @@ function formatDubloonCount(count) {
     else return `${(count / 1000000000000000).toFixed(2)}Q`;
 }
 
-// ---- UPGRADES ----
+// ---- CREWMATES ----
 
 class Crewmate {
 
@@ -195,7 +195,7 @@ function drawCrewmate(index) {
     crewmateCost.classList.add('no-highlight');
     crewmateBox.appendChild(crewmateCost);
 
-    upgradeList.appendChild(crewmateBox);
+    crewmateList.appendChild(crewmateBox);
 
     crewmateBox.addEventListener('click', (event) => {
         const index = Number(event.currentTarget.dataset.index);
@@ -218,11 +218,11 @@ function updateCrewmate(index) {
 function updateCrewmateText() {
     const currentCrewmate = crewmates.findLast(_crewmate => _crewmate.unlocked);
     if (currentCrewmate.name === "Swordsman") {
-        upgradeText.classList.add('hidden');
+        crewmateText.classList.add('hidden');
         return;
     }
     let remaining = 10 - currentCrewmate.count;
-    upgradeText.innerText = remaining === 1 
+    crewmateText.innerText = remaining === 1 
         ? `recruit ${remaining} more ${(currentCrewmate.name).toLowerCase()} to unlock the next crewmate`
         : `recruit ${remaining} more ${(currentCrewmate.name).toLowerCase()}s to unlock the next crewmate`;
 }
