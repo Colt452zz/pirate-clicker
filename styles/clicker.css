@@ -1,4 +1,4 @@
-.upgradeBox {
+.crewmateBox {
     border-radius: 8px;
     background-color: #1b1b1f;
     padding: 8px;
@@ -6,10 +6,10 @@
     justify-content: space-between;
     margin: 8px;
 }
-.upgradeBox:hover {
+.crewmateBox:hover {
     cursor: pointer;
 }
-#upgradeList {
+#crewmateList {
     width: 100%;
     overflow-y: auto;
     flex: 1;
