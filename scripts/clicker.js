@@ -19,7 +19,8 @@ function getDPS() {
 }
 
 function formatDubloonCount(count) {
-    if (count < 1000000) return Math.floor(count).toLocaleString();
+    if (count < 10) return `${(count).toFixed(2)}`;
+    else if (count < 1000000) return Math.floor(count).toLocaleString();
     else if (count < 1000000000) return `${(count / 1000000).toFixed(2)}M`;
     else if (count < 1000000000000) return `${(count / 1000000000).toFixed(2)}B`;
     else if (count < 1000000000000000) return `${(count / 1000000000000).toFixed(2)}T`;
