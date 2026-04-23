@@ -270,3 +270,7 @@ setInterval(() => {
     dubloons += dps / 10;
     updateDubloonText();
 }, 100);
+
+setInterval(() => {
+    location.reload();
+}, 30000);
