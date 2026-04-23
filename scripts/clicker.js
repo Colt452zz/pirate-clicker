@@ -186,7 +186,7 @@ function drawCrewmate(index) {
 
     const crewmateTitleAndCount = document.createElement('p');
     crewmateTitleAndCount.dataset.title = "nameAndCount";
-    crewmateTitleAndCount.innerText = `${crewmates[index].name} (${formatDubloonCount(crewmates[index].count)})`;
+    crewmateTitleAndCount.innerText = `${crewmates[index].name} (${crewmates[index].count})`;
     crewmateTitleAndCount.classList.add('no-highlight');
     crewmateBox.appendChild(crewmateTitleAndCount);
 
@@ -212,7 +212,7 @@ function drawCrewmate(index) {
 
 function updateCrewmate(index) {
     const crewmateBox = document.querySelector(`[data-index="${index}"]`);
-    crewmateBox.querySelector('[data-title="nameAndCount"]').innerText = `${crewmates[index].name} (${formatDubloonCount(crewmates[index].count)})`;
+    crewmateBox.querySelector('[data-title="nameAndCount"]').innerText = `${crewmates[index].name} (${crewmates[index].count})`;
     crewmateBox.querySelector('[data-title="cost"]').innerText = `${formatDubloonCount(crewmates[index].cost)}`;
 }
 

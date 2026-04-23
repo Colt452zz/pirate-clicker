@@ -34,6 +34,9 @@
 .dubloonText > * {
     margin: 8px;
 }
+.sprite {
+    image-rendering: pixelated;
+}
 
 @media (max-width: 768px) {
     body {
