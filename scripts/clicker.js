@@ -54,12 +54,12 @@ class Crewmate {
 
 const crewmates = [
     new Crewmate("Cabin Boy", 10, 0.1, true),
-    new Crewmate("Doctor", 50, 1, ),
+    new Crewmate("Plunderer", 50, 1, ),
     new Crewmate("Navigator", 250, 5),
     new Crewmate("Sharpshooter", 1250, 10),
     new Crewmate("Musician", 6250, 50),
     new Crewmate("Carpenter", 31250, 100),
-    new Crewmate("Archaeologist", 156250, 500),
+    new Crewmate("Researcher", 156250, 500),
     new Crewmate("Helmsman", 781250, 1000),
     new Crewmate("Cook", 3875000, 5000),
     new Crewmate("Swordsman", 18750000, 10000)
